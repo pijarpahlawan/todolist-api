@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('activities', {
-      activityId: {
+      id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,

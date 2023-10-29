@@ -4,7 +4,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('todos', {
-      todoId: {
+      id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -30,6 +30,7 @@ module.exports = {
       priority: {
         type: Sequelize.STRING(255),
         allowNull: false,
+        defaultValue: 'very-high',
         field: 'priority',
       },
       createdAt: {
