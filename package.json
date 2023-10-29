@@ -17,9 +17,6 @@
   "author": "Pijar Pahlawan <pijarpahlawanq@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.52.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.0",
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.1"
   },
