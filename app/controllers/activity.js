@@ -1,4 +1,5 @@
 const activityRepository = require('../repositories/activity');
+const NotFoundError = require('../errors/NotFoundError');
 
 const getAll = async (req, res) => {
   try {
@@ -9,10 +10,10 @@ const getAll = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -27,10 +28,10 @@ const getOne = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -39,16 +40,16 @@ const create = async (req, res) => {
   try {
     const { body } = req;
     const result = await activityRepository.createActivity(body);
-    res.status(200).json({
+    res.status(201).json({
       status: 'Success',
       message: 'Success',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -63,10 +64,10 @@ const remove = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -82,10 +83,10 @@ const update = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
