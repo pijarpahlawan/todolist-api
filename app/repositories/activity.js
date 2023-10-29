@@ -67,7 +67,7 @@ const updateActivity = async (id, activity) => {
   const result = await sequelize.transaction(
     { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
     async (transaction) => {
-      const updatedActivity = await Activity.update(activity, {
+      await Activity.update(activity, {
         where: { id },
         transaction,
       });
