@@ -38,8 +38,8 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { body } = req;
-    const result = await activityRepository.createActivity(body);
+    const { email, title } = req.body;
+    const result = await activityRepository.createActivity({ email, title });
     res.status(201).json({
       status: 'Success',
       message: 'Success',
@@ -75,8 +75,11 @@ const remove = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { body } = req;
-    const result = await activityRepository.updateActivity(id, body);
+    const { email, title } = req.body;
+    const result = await activityRepository.updateActivity(id, {
+      email,
+      title,
+    });
     res.status(200).json({
       status: 'Success',
       message: 'Success',
