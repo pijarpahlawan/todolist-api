@@ -9,10 +9,10 @@ const getAll = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -27,28 +27,31 @@ const getOne = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
 
 const create = async (req, res) => {
   try {
-    const { body } = req;
-    const result = await todoRepository.createTodo(body);
-    res.status(200).json({
+    const { activity_group_id, title } = req.body;
+    const result = await todoRepository.createTodo({
+      activityGroupId: activity_group_id,
+      title,
+    });
+    res.status(201).json({
       status: 'Success',
       message: 'Success',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -63,10 +66,10 @@ const remove = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
@@ -74,18 +77,21 @@ const remove = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { body } = req;
-    const result = await todoRepository.updateTodo(id, body);
+    const { activity_group_id, title } = req.body;
+    const result = await todoRepository.updateTodo(id, {
+      activityGroupId: activity_group_id,
+      title,
+    });
     res.status(200).json({
       status: 'Success',
       message: 'Success',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      status: 'Error',
+    res.status(error.code).json({
+      status: error.status,
       message: error.message,
-      data: null,
+      data: {},
     });
   }
 };
