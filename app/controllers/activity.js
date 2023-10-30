@@ -75,9 +75,8 @@ const remove = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { email, title } = req.body;
+    const { title } = req.body;
     const result = await activityRepository.updateActivity(id, {
-      email,
       title,
     });
     res.status(200).json({

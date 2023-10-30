@@ -67,7 +67,15 @@ const createTodo = async (todo) => {
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {
         const newTodo = await Todo.create(todo, { transaction });
-        return newTodo;
+        return {
+          id: newTodo.id,
+          title: newTodo.title,
+          activity_group_id: newTodo.activityGroupId,
+          is_active: newTodo.isActive,
+          priority: newTodo.priority,
+          createdAt: newTodo.createdAt,
+          updatedAt: newTodo.updatedAt,
+        };
       },
     );
 
@@ -108,11 +116,6 @@ const updateTodo = async (id, todo) => {
   const sequelize = new Sequelize(dbconfig);
 
   try {
-    if (todo.activityGroupId === undefined)
-      throw new BadRequestError('activity_group_id cannot be null');
-    if (todo.title === undefined)
-      throw new BadRequestError('title cannot be null');
-
     const result = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {

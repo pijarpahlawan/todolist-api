@@ -37,10 +37,11 @@ const getOne = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const { activity_group_id, title } = req.body;
+    const { activity_group_id, title, is_active } = req.body;
     const result = await todoRepository.createTodo({
-      activityGroupId: activity_group_id,
       title,
+      activityGroupId: activity_group_id,
+      isActive: is_active,
     });
     res.status(201).json({
       status: 'Success',
@@ -77,10 +78,11 @@ const remove = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    const { activity_group_id, title } = req.body;
+    const { activity_group_id, title, is_active } = req.body;
     const result = await todoRepository.updateTodo(id, {
-      activityGroupId: activity_group_id,
       title,
+      activityGroupId: activity_group_id,
+      isActive: is_active,
     });
     res.status(200).json({
       status: 'Success',

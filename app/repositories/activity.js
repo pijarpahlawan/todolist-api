@@ -103,8 +103,6 @@ const updateActivity = async (id, activity) => {
   const sequelize = new Sequelize(dbconfig);
 
   try {
-    if (activity.email === undefined)
-      throw new BadRequestError('email cannot be null');
     if (activity.title === undefined)
       throw new BadRequestError('title cannot be null');
 
