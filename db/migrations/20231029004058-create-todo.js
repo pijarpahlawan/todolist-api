@@ -11,10 +11,19 @@ module.exports = {
         autoIncrement: true,
         field: 'id',
       },
+      todoId: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+        defaultValue: 'undefined',
+        field: 'todo_id',
+      },
       activityGroupId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         field: 'activity_group_id',
+        // type: Sequelize.STRING(255),
+        // allowNull: false,
+        // field: 'activity_group_id',
       },
       title: {
         type: Sequelize.STRING(255),
@@ -52,21 +61,21 @@ module.exports = {
       },
     });
 
-    await queryInterface.addConstraint('todos', {
-      fields: ['activity_group_id'],
-      type: 'foreign key',
-      name: 'fk_activity_group_id',
-      references: {
-        table: 'activities',
-        field: 'id',
-      },
-      onDelete: 'cascade',
-      onUpdate: 'cascade',
-    });
+    // await queryInterface.addConstraint('todos', {
+    //   fields: ['activity_group_id'],
+    //   type: 'foreign key',
+    //   name: 'fk_activity_group_id',
+    //   references: {
+    //     table: 'activities',
+    //     field: 'id',
+    //   },
+    //   onDelete: 'cascade',
+    //   onUpdate: 'cascade',
+    // });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeConstraint('todos', 'fk_activity_group_id');
+    // await queryInterface.removeConstraint('todos', 'fk_activity_group_id');
 
     await queryInterface.dropTable('todos');
   },

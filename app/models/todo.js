@@ -3,13 +3,13 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     static associate(models) {
-      Todo.belongsTo(models.Activity, {
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-        foreignKey: {
-          name: 'id',
-        },
-      });
+      // Todo.belongsTo(models.Activity, {
+      //   onDelete: 'CASCADE',
+      //   onUpdate: 'CASCADE',
+      //   foreignKey: {
+      //     name: 'id',
+      //   },
+      // });
     }
   }
 
@@ -21,9 +21,18 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      activityGroupId: {
-        type: DataTypes.INTEGER,
+      todoId: {
+        type: DataTypes.STRING(255),
         allowNull: false,
+        defaultValue: 'undefined',
+      },
+      // activityGroupId: {
+      //   type: DataTypes.INTEGER,
+      // allowNull: false,
+      // },
+      activityGroupId: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
       },
       title: {
         type: DataTypes.STRING(255),

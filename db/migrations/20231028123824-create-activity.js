@@ -11,6 +11,12 @@ module.exports = {
         autoIncrement: true,
         field: 'id',
       },
+      activityId: {
+        type: Sequelize.STRING(255),
+        allowNull: false,
+        defaultValue: 'undefined',
+        field: 'activity_id',
+      },
       email: {
         type: Sequelize.STRING(255),
         allowNull: false,

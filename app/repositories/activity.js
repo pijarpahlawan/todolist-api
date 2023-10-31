@@ -34,12 +34,25 @@ const getActivityById = async (id) => {
     const result = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {
-        const activity = await Activity.findByPk(id, { transaction });
+        // const activity = await Activity.findByPk(id, { transaction });
+
+        const activity = await Activity.findOne(
+          { where: { activityId: id } },
+          {
+            transaction,
+          },
+        );
 
         if (activity === null)
           throw new NotFoundError(`Activity with ID ${id} Not Found`);
 
-        return activity;
+        return {
+          id: undefined,
+          title: activity.title,
+          email: activity.email,
+          createdAt: activity.createdAt,
+          updatedAt: activity.updatedAt,
+        };
       },
     );
 
@@ -110,18 +123,30 @@ const updateActivity = async (id, activity) => {
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {
         const updated = await Activity.update(activity, {
-          where: { id },
+          where: { activityId: id },
           transaction,
         });
 
         if (updated[0] === 0)
           throw new NotFoundError(`Activity with ID ${id} Not Found`);
 
-        const updatedActivityData = await Activity.findByPk(id, {
-          transaction,
-        });
+        const updatedActivityData = await Activity.findOne(
+          { where: { activityId: id } },
+          {
+            transaction,
+          },
+        );
+        // const updatedActivityData = await Activity.findByPk(id, {
+        //   transaction,
+        // });
 
-        return updatedActivityData;
+        return {
+          id: undefined,
+          title: updatedActivityData.title,
+          email: updatedActivityData.email,
+          createdAt: updatedActivityData.createdAt,
+          updatedAt: updatedActivityData.updatedAt,
+        };
       },
     );
 

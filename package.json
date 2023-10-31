@@ -4,9 +4,8 @@
   "description": "API for Todolist Application",
   "main": "./app/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "start": "NODE_ENV=production node ./app/index.js",
+    "start": "NODE_ENV=production sequelize-cli db:migrate && NODE_ENV=production node ./app/index.js",
     "migrate:up": "NODE_ENV=development sequelize-cli db:migrate",
     "migrate:down": "NODE_ENV=development sequelize-cli db:migrate:undo"
   },

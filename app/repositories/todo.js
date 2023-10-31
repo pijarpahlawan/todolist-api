@@ -38,12 +38,27 @@ const getTodoById = async (id) => {
     const result = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {
-        const todo = await Todo.findByPk(id, { transaction });
+        // const todo = await Todo.findByPk(id, { transaction });
+
+        const todo = await Todo.findOne(
+          { where: { todoId: id } },
+          {
+            transaction,
+          },
+        );
 
         if (todo === null)
           throw new NotFoundError(`Todo with ID ${id} Not Found`);
 
-        return todo;
+        return {
+          id: undefined,
+          title: todo.title,
+          activity_group_id: todo.activityGroupId,
+          is_active: todo.isActive,
+          priority: todo.priority,
+          createdAt: todo.createdAt,
+          updatedAt: todo.updatedAt,
+        };
       },
     );
 
@@ -58,15 +73,24 @@ const createTodo = async (todo) => {
   const sequelize = new Sequelize(dbconfig);
 
   try {
-    if (todo.activityGroupId === undefined)
-      throw new BadRequestError('activity_group_id cannot be null');
     if (todo.title === undefined)
       throw new BadRequestError('title cannot be null');
+    // if (todo.activityGroupId === undefined)
+    //   throw new BadRequestError('activity_group_id cannot be null');
 
     const result = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (transaction) => {
-        const newTodo = await Todo.create(todo, { transaction });
+        const newTodo = await Todo.create(
+          {
+            todoId: todo.id,
+            title: todo.title,
+            activityGroupId: todo.activity_group_id,
+            is_active: todo.isActive,
+            priority: todo.priority,
+          },
+          { transaction },
+        );
         return {
           id: newTodo.id,
           title: newTodo.title,
@@ -121,18 +145,32 @@ const updateTodo = async (id, todo) => {
       async (transaction) => {
         const updated = await Todo.update(
           todo,
-          { where: { id } },
+          { where: { todoId: id } },
           { transaction },
         );
 
         if (updated[0] === 0)
           throw new NotFoundError(`Todo with ID ${id} Not Found`);
 
-        const updatedTodoData = await Todo.findByPk(id, {
-          transaction,
-        });
+        const updatedTodoData = await Todo.findOne(
+          { where: { todoId: id } },
+          {
+            transaction,
+          },
+        );
+        // const updatedTodoData = await Todo.findByPk(id, {
+        //   transaction,
+        // });
 
-        return updatedTodoData;
+        return {
+          id: undefined,
+          title: updatedTodoData.title,
+          activityGroupId: updatedTodoData.activityGroupId,
+          isActive: updatedTodoData.isActive,
+          priority: updatedTodoData.priority,
+          createdAt: updatedTodoData.createdAt,
+          updatedAt: updatedTodoData.updatedAt,
+        };
       },
     );
 
